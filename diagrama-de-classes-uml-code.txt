@@ -1,0 +1,133 @@
+@startuml
+
+title ERP
+
+
+class Categoria{
+  -int codigo
+  -String tipo
+  + Categoria()
+}
+
+
+class Produto{
+  -int idProduto
+  -String nome
+  -float preco
+  -int idCategoria
+  +Produto()
+}
+
+
+
+class Estoque{
+  -List<int> qtdProdutos
+  + Estoque()
+}
+
+
+class Marketplace{
+  -int idMarketplace
+  -String nome
+  + Marketplace()
+}
+
+class Anuncio{
+  -int qtdVendida
+  -int qtdDisponivel
+  + Anuncio()
+}
+
+
+class Cliente{
+  - String email
+  + Cliente()
+}
+
+
+class Carrinho{
+  -int idCarrinho
+  + Carrinho()
+}
+
+
+class ItemCarrinho{
+  -int quant
+  + ItemCarrinho()
+}
+
+
+class Pagamento{
+- int metodoPagamento
+- int parcelas
+  + Pagamento()
+}
+
+class Cartao{
+  -String numero
+  -String nomeImpresso
+  -String validade
+  -String cvv
+  +Cartao()
+}
+
+
+class Venda {
+  -UUID id
+  -double valorTotal
+  -String dataVenda
+  -String horarioVenda
+  +Venda()
+}
+
+
+class Atendente{
+  -int atendenteId
+  - String password
+  - int count
+  +Atendente()
+}
+
+class Usuario {
+  - UUID uuid
+  - String email
+  - String senha
+  + Usuario()
+}
+
+class Pessoa {
+  # String nome
+  # String dataNascimento
+  # String cpf
+  # String telefone
+  + Pessoa()
+}
+
+Cliente "1..." *-- "1..." Usuario: Possui
+Cliente "1..." <|-- "1..." Pessoa: E um
+Atendente "1..." <|-- "1..." Pessoa: E um
+Categoria "1..." -- "1...*" Produto: Possui
+Produto "1..." -- "1" Estoque: Contém
+Marketplace "1..." *-- "1..." Anuncio: Contém
+Anuncio "1" *-- "1" Produto: Possui
+Produto "1" <-- "1" ItemCarrinho:Contém
+Carrinho "1" --"0..." ItemCarrinho:Contém
+Carrinho "1" --*"1" Cliente: Possui
+Pagamento"1" *--"1" Carrinho: Possui
+
+Estoque "1" -- "1..." Pagamento: Contém
+Estoque "1" --"1..." Marketplace: Contém
+Estoque "1" -- "1..." Cliente: Contém
+Estoque "1" -- "1..." Categoria
+Estoque "1" -- "1..." Venda
+Estoque "1" -- "1..." Anuncio
+Estoque "1" -- "1..." Usuario
+Estoque "1" -- "1..." Venda
+
+Venda "1" *-- "1" Carrinho: Possui
+Venda "1" *-- "1" Pagamento: Possui
+Pagamento "1" *-- "1" Cartao: Possui 
+
+
+
+@enduml
